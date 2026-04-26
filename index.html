@@ -8,81 +8,78 @@
     <style>
         :root { --primary: #6c5ce7; --accent: #00d2d3; --bg: #0f172a; --card: rgba(255, 255, 255, 0.1); --gold: #feca57; --pink: #ff9ff3; --red: #ff7675; }
         body { font-family: 'Outfit', sans-serif; background: var(--bg); color: white; display: flex; justify-content: center; padding: 10px; margin: 0; min-height: 100vh; overflow-x: hidden; }
-        .game-container { background: #1e293b; width: 100%; max-width: 600px; border-radius: 40px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px rgba(0,0,0,0.5); position: relative; }
+        .game-container { background: #1e293b; width: 100%; max-width: 700px; border-radius: 40px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px rgba(0,0,0,0.5); position: relative; }
         .screen { display: none; padding: 20px; text-align: center; }
         .active { display: block; }
-        .instr-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 20px; text-align: left; font-size: 0.85rem; margin-bottom: 20px; border: 1px solid var(--accent); }
         
-        /* 22 Tile Board Layout (6x6 Grid perimeter) */
-        .board-track { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(6, 1fr); gap: 5px; padding: 15px; background: rgba(0,0,0,0.2); height: 450px; position: relative; }
-        .tile { background: var(--card); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.55rem; font-weight: 700; color: #cbd5e1; border: 1.5px solid transparent; text-align: center; line-height: 1.1; position: relative; transition: 0.5s; overflow: hidden; }
-        .owner-tag { position: absolute; top: -5px; font-size: 1.2rem; filter: drop-shadow(0 0 3px black); z-index: 10; }
-        .player-piece { position: absolute; font-size: 1.4rem; z-index: 100; transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events: none; }
-        .center-space { grid-column: 2 / 6; grid-row: 2 / 6; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border-radius: 20px; margin: 5px; }
+        /* 22 Tile Square Perimeter (6x6 Grid) */
+        .board-track { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(6, 1fr); gap: 6px; padding: 20px; background: rgba(0,0,0,0.3); height: 550px; position: relative; }
+        .tile { background: var(--card); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: #cbd5e1; border: 2px solid transparent; text-align: center; line-height: 1.2; position: relative; transition: 0.4s; }
+        .player-piece { position: absolute; font-size: 1.8rem; z-index: 100; transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events: none; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         
-        .dice-wrap { perspective: 800px; width: 60px; height: 60px; margin-bottom: 15px; cursor: pointer; }
-        .dice { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1s; }
-        .dice-face { position: absolute; width: 60px; height: 60px; background: white; border: 2px solid #ddd; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #333; font-weight: 900; font-size: 1.8rem; box-shadow: inset 0 0 15px rgba(0,0,0,0.1); }
-        .f1 { transform: translateZ(30px); } .f2 { transform: rotateY(180deg) translateZ(30px); } .f3 { transform: rotateY(90deg) translateZ(30px); } 
-        .f4 { transform: rotateY(-90deg) translateZ(30px); } .f5 { transform: rotateX(90deg) translateZ(30px); } .f6 { transform: rotateX(-90deg) translateZ(30px); }
+        /* THE MIDDLE (CENTER SPACE) */
+        .center-space { grid-column: 2 / 6; grid-row: 2 / 6; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 30px; margin: 10px; padding: 20px; }
+        
+        /* BIG 3D DICE */
+        .dice-wrap { perspective: 1000px; width: 80px; height: 80px; cursor: pointer; }
+        .dice { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .dice-face { position: absolute; width: 80px; height: 80px; background: white; border: 3px solid #ddd; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #333; font-weight: 900; font-size: 2.2rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); }
+        .f1 { transform: translateZ(40px); } .f2 { transform: rotateY(180deg) translateZ(40px); }
+        .f3 { transform: rotateY(90deg) translateZ(40px); } .f4 { transform: rotateY(-90deg) translateZ(40px); }
+        .f5 { transform: rotateX(90deg) translateZ(40px); } .f6 { transform: rotateX(-90deg) translateZ(40px); }
         .rolling { animation: multi-spin 0.4s infinite linear; }
         @keyframes multi-spin { 0% { transform: rotateX(0deg) rotateY(0deg); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
 
-        .btn { width: 85%; padding: 12px; border: none; border-radius: 15px; color: white; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 8px; }
-        .btn-buy { background: var(--gold); color: #000; }
-        .btn-skip { background: #4b5563; }
-        .btn-roll { background: var(--primary); }
+        /* CONTROLS */
+        .btn { width: 90%; padding: 15px; border: none; border-radius: 20px; color: white; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .btn-chance-big { background: var(--pink); color: #000; font-size: 1rem; border: 3px solid white; box-shadow: 0 10px 20px rgba(255, 159, 243, 0.3); }
+        .btn-roll-big { background: var(--primary); font-size: 1.2rem; box-shadow: 0 8px 0 #4834d4; }
+        .btn-roll-big:active { transform: translateY(4px); box-shadow: 0 4px 0 #4834d4; }
+
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.98); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .q-card { background: #1e293b; padding: 25px; border-radius: 30px; width: 90%; max-width: 420px; border: 2px solid var(--primary); text-align: center; }
-        .btn-mcq { background: var(--card); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 10px; margin-bottom: 6px; width: 100%; cursor: pointer; text-align: left; font-size: 0.85rem; }
-        .p-stat { text-align: center; padding: 5px; opacity: 0.3; flex: 1; font-size: 0.75rem; }
-        .p-stat.active-turn { opacity: 1; background: rgba(255,255,255,0.1); border-radius: 10px; }
-        sub, sup { font-size: 0.75em; line-height: 0; position: relative; vertical-align: baseline; }
+        .q-card { background: #1e293b; padding: 30px; border-radius: 40px; width: 90%; max-width: 500px; border: 3px solid var(--primary); text-align: center; }
+        .btn-mcq { background: var(--card); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin-bottom: 10px; width: 100%; cursor: pointer; text-align: left; font-size: 1rem; }
+        
+        .p-stat { text-align: center; padding: 10px; opacity: 0.4; flex: 1; font-size: 0.9rem; transition: 0.3s; }
+        .p-stat.active-turn { opacity: 1; background: rgba(255,255,255,0.1); border-radius: 15px; border: 2px solid var(--primary); transform: scale(1.1); }
+        
+        /* ROUND POPUP */
+        .round-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--gold); color: #000; padding: 30px 50px; border-radius: 100px; font-weight: 900; font-size: 2rem; z-index: 2000; display: none; animation: pop-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 5px solid white; box-shadow: 0 0 50px rgba(254, 202, 87, 0.6); }
+        @keyframes pop-in { 0% { transform: translate(-50%, -50%) scale(0); } 100% { transform: translate(-50%, -50%) scale(1); } }
     </style>
 </head>
 <body>
 
 <div class="game-container">
     <div id="screen-lobby" class="screen active">
-        <span style="color:var(--accent); font-weight:700;">BY YAN</span>
-        <h1>ChemistryPoly</h1>
-        <div class="instr-box">
-            <b>RULES:</b><br>
-            1. Select players (100 PTS each).<br>
-            2. Correct answer: <b>+40 PTS</b> and buy option.<br>
-            3. Wrong answer: <b>-20 PTS</b> penalty.<br>
-            4. Each full round completed: <b>+50 PTS</b>.<br>
-            5. Most points after <b>3 ROUNDS</b> wins!
+        <span style="color:var(--accent); font-weight:700;">PHARMACY INNOVATION</span>
+        <h1 style="font-size: 2.5rem; margin-top: 10px;">ChemistryPoly</h1>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin:25px 0;">
+            <div id="card0" onclick="togglePlayer(0)" style="background:var(--card); padding:20px; border-radius:25px; cursor:pointer; border:3px solid transparent;"><span>🐱</span><br><small id="n0">CAT-ALYST</small></div>
+            <div id="card1" onclick="togglePlayer(1)" style="background:var(--card); padding:20px; border-radius:25px; cursor:pointer; border:3px solid transparent;"><span>🐶</span><br><small id="n1">DOG-MA</small></div>
+            <div id="card2" onclick="togglePlayer(2)" style="background:var(--card); padding:20px; border-radius:25px; cursor:pointer; border:3px solid transparent;"><span>🦊</span><br><small id="n2">FOX-PHATE</small></div>
+            <div id="card3" onclick="togglePlayer(3)" style="background:var(--card); padding:20px; border-radius:25px; cursor:pointer; border:3px solid transparent;"><span>🐰</span><br><small id="n3">BUN-SEN</small></div>
         </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:20px;">
-            <div id="card0" onclick="togglePlayer(0)" style="background:var(--card); padding:10px; border-radius:15px; cursor:pointer; border:2px solid transparent;"><span>🐱</span><br><small id="n0">CAT-ALYST</small></div>
-            <div id="card1" onclick="togglePlayer(1)" style="background:var(--card); padding:10px; border-radius:15px; cursor:pointer; border:2px solid transparent;"><span>🐶</span><br><small id="n1">DOG-MA</small></div>
-            <div id="card2" onclick="togglePlayer(2)" style="background:var(--card); padding:10px; border-radius:15px; cursor:pointer; border:2px solid transparent;"><span>🦊</span><br><small id="n2">FOX-PHATE</small></div>
-            <div id="card3" onclick="togglePlayer(3)" style="background:var(--card); padding:10px; border-radius:15px; cursor:pointer; border:2px solid transparent;"><span>🐰</span><br><small id="n3">BUN-SEN</small></div>
-        </div>
-        <button class="btn" style="background:var(--accent)" id="startBtn" disabled onclick="startGame()">START SESSION</button>
+        <button class="btn btn-start" style="background:var(--accent)" id="startBtn" disabled onclick="startGame()">START SESSION</button>
     </div>
 
-    <div id="screen-game" class="screen" style="padding:5px;">
-        <div style="display:flex; justify-content:space-between; padding:0 15px; font-size:0.8rem; color:var(--gold);">
-            <span id="roundCounter">ROUND: 1/3</span>
-            <span id="turnIndicator">TURN: --</span>
-        </div>
+    <div id="screen-game" class="screen" style="padding:0;">
+        <div id="roundAlert" class="round-popup">+50 PTS! 🧪</div>
         <div class="board-track" id="board">
-            <div class="center-space">YAN<br><small style="font-size:0.5rem">CHEMISTRYPOLY</small></div>
+            <div class="center-space">
+                <h4 id="statusLabel" style="font-size:1.2rem; margin-bottom:10px; color:var(--accent);">READY?</h4>
+                <div class="dice-wrap" onclick="rollDice()">
+                    <div id="dice" class="dice">
+                        <div class="dice-face f1">1</div><div class="dice-face f2">2</div><div class="dice-face f3">3</div>
+                        <div class="dice-face f4">4</div><div class="dice-face f5">5</div><div class="dice-face f6">6</div>
+                    </div>
+                </div>
+                <button id="rollBtn" class="btn btn-roll-big" onclick="rollDice()">ROLL</button>
+                <button class="btn btn-chance-big" onclick="buySabotage()">BUY CHANCE</button>
+            </div>
             <div id="piecesContainer"></div>
         </div>
-        <div class="center-ui">
-            <div class="dice-wrap" onclick="rollDice()">
-                <div id="dice" class="dice">
-                    <div class="dice-face f1">1</div><div class="dice-face f2">2</div><div class="dice-face f3">3</div>
-                    <div class="dice-face f4">4</div><div class="dice-face f5">5</div><div class="dice-face f6">6</div>
-                </div>
-            </div>
-            <button id="rollBtn" class="btn btn-roll" onclick="rollDice()">ROLL DICE</button>
-            <button class="btn" style="background:var(--pink); font-size:0.6rem; width:85%; color:black;" onclick="buySabotage()">BUY CHANCE (50 PTS)</button>
-        </div>
-        <div id="dashboard" style="display:flex; background:rgba(0,0,0,0.4); padding:10px; margin-top:10px;"></div>
+        <div id="dashboard" style="display:flex; background:rgba(0,0,0,0.5); padding:15px; justify-content: space-around;"></div>
     </div>
 </div>
 
@@ -98,18 +95,13 @@
         { id:3, text: "VSEPR shape of NH<sub>3</sub>?", options: ["Trigonal Pyramidal", "Trigonal Planar", "Tetrahedral", "Bent"], correct: "Trigonal Pyramidal", price: 60, rent: 50 },
         { id:4, text: "Henderson-Hasselbalch: pH = pK<sub>a</sub> + log(___)", options: ["[A<sup>-</sup>]/[HA]", "[HA]/[A<sup>-</sup>]", "[OH<sup>-</sup>]/[H<sup>+</sup>]", "K<sub>w</sub>"], correct: "[A<sup>-</sup>]/[HA]", price: 150, rent: 100 },
         { id:5, text: "EDTA is a ___ ligand.", options: ["Hexadentate", "Bidentate", "Monodentate", "Tridentate"], correct: "Hexadentate", price: 100, rent: 80 },
-        { id:6, text: "Bond order for O<sub>2</sub><sup>+</sup>?", options: ["2.5", "2.0", "1.5", "3.0"], correct: "2.5", price: 150, rent: 100 },
-        { id:7, text: "Choice of indicator depends on:", options: ["Equivalence point pH", "Titrant color", "Pressure", "Stirring"], correct: "Equivalence point pH", price: 100, rent: 80 },
-        { id:8, text: "The Mohr Method uses which indicator?", options: ["K<sub>2</sub>CrO<sub>4</sub>", "Fe<sup>3+</sup>", "Phenolphthalein", "Erio-T"], correct: "K<sub>2</sub>CrO<sub>4</sub>", price: 60, rent: 50 },
-        { id:9, text: "Definition of Molality (m)?", options: ["Moles per kg solvent", "Moles per L solution", "Grams/mL", "Weight %"], correct: "Moles per kg solvent", price: 60, rent: 50 },
-        { id:10, text: "Mole fraction (X<sub>A</sub>) is:", options: ["Moles A / Total moles", "Moles A / kg solvent", "Weight / Volume", "Density"], correct: "Moles A / Total moles", price: 60, rent: 50 }
+        { id:6, text: "Choice of indicator depends on:", options: ["Equivalence point pH", "Titrant color", "Pressure", "Stirring"], correct: "Equivalence point pH", price: 100, rent: 80 }
     ];
 
     const tileNames = ["GO", "Molarity", "IUPAC", "AUDIT", "EDTA", "Redox", "Molality", "Mohr", "Buffer", "AUDIT", "pH/pK<sub>a</sub>", "Volhard", "Lab Bonus", "Precision", "VSEPR", "Henderson", "AUDIT", "Mole Frac", "Iodine", "NaOH Calc", "HCl Calc", "Hybridize"];
     const ownerCols = ["#6c5ce7", "#00d2d3", "#e67e22", "#ff9ff3"];
     let players = [], turn = 0, rolling = false, owners = {}, chars = [{id:0, icon:'🐱', n:'CAT-ALYST', a:false},{id:1, icon:'🐶', n:'DOG-MA', a:false},{id:2, icon:'🦊', n:'FOX-PHATE', a:false},{id:3, icon:'🐰', n:'BUN-SEN', a:false}];
-    let totalRounds = 3;
-    let roundUsedQuestions = [];
+    let usedQs = [];
 
     function togglePlayer(id){
         chars[id].a = !chars[id].a;
@@ -127,7 +119,6 @@
 
     function initBoard(){
         const b = document.getElementById('board');
-        // 22 Tile Path: 6 Top, 5 Right, 6 Bottom, 5 Left
         let idxs = [0,1,2,3,4,5, 21,-1,-1,-1,-1,6, 20,-1,-1,-1,-1,7, 19,-1,-1,-1,-1,8, 18,-1,-1,-1,-1,9, 17,16,15,14,13,12];
         idxs.forEach((idx, i) => {
             if(idx === -1) return;
@@ -166,39 +157,34 @@
     function movePlayer(s){
         let p = players[turn]; let old = p.pos; p.pos = (p.pos + s) % 22;
         if(p.pos < old) { 
-            p.rounds++; 
             p.pts += 50; 
-            roundUsedQuestions = []; // Reset question pool for new round
-            if(p.rounds > totalRounds) { checkEndGame(); return; }
+            showRoundPop();
         }
-        document.getElementById('roundCounter').innerText = `ROUND: ${p.rounds}/3`;
         updatePieces(); setTimeout(()=>handleLanding(p), 600);
     }
 
+    function showRoundPop(){
+        const pop = document.getElementById('roundAlert');
+        pop.style.display = 'block';
+        setTimeout(()=> pop.style.display = 'none', 1500);
+    }
+
     function handleLanding(p){
-        if(p.pos === 0) { p.pts += 100; endTurn(); return; }
+        if(p.pos === 0) { endTurn(); return; }
         if(tileNames[p.pos] === "Lab Bonus") { p.pts += 50; alert("LAB BONUS! +50 PTS"); endTurn(); return; }
-        if(tileNames[p.pos] === "AUDIT") { p.pts -= 40; alert("Audit Penalty! -40 PTS"); endTurn(); return; }
-        
+        if(tileNames[p.pos] === "AUDIT") { p.pts -= 40; alert("Audit! -40 PTS"); endTurn(); return; }
         if(owners[p.pos] !== undefined && owners[p.pos] !== turn){
             let q = questions[p.pos % questions.length];
-            let rentAmount = q.rent || 50;
-            let o = players[owners[p.pos]];
-            p.pts -= rentAmount; o.pts += rentAmount;
-            alert(`Rent: ${rentAmount} PTS to ${o.icon}`);
-            endTurn();
-        } else {
-            showQuestion(p.pos, p);
-        }
+            let o = players[owners[p.pos]]; p.pts -= q.rent; o.pts += q.rent;
+            alert(`Paid ${q.rent} rent to ${o.icon}`); endTurn();
+        } else { showQuestion(p.pos, p); }
     }
 
     function showQuestion(tid, p){
-        let availablePool = questions.filter(q => !roundUsedQuestions.includes(q.id));
-        if(availablePool.length === 0) availablePool = questions; // Fallback if round is very long
-
-        const q = availablePool[Math.floor(Math.random()*availablePool.length)];
-        roundUsedQuestions.push(q.id);
-
+        let pool = questions.filter(q => !usedQs.includes(q.id));
+        if(pool.length === 0) { usedQs = []; pool = questions; }
+        const q = pool[Math.floor(Math.random()*pool.length)];
+        usedQs.push(q.id);
         document.getElementById('qOverlay').style.display = 'flex';
         document.getElementById('qText').innerHTML = q.text;
         const area = document.getElementById('optionsArea'); area.innerHTML = '';
@@ -206,18 +192,10 @@
             const b = document.createElement('button'); b.className = 'btn-mcq'; b.innerHTML = opt;
             b.onclick = () => {
                 if(opt === q.correct){
-                    play('correct');
-                    p.pts += 40;
-                    updateStats();
-                    if(owners[tid] === undefined){
-                        showBuyMenu(tid, p, q.price);
-                    } else { endTurn(); }
-                } else { 
-                    play('wrong'); 
-                    p.pts -= 20; 
-                    updateStats();
-                    endTurn(); 
-                }
+                    play('correct'); p.pts += 40; updateStats();
+                    if(owners[tid] === undefined) showBuyMenu(tid, p, q.price);
+                    else endTurn();
+                } else { play('wrong'); p.pts -= 20; endTurn(); }
             };
             area.appendChild(b);
         });
@@ -225,20 +203,19 @@
 
     function showBuyMenu(tid, p, price){
         const area = document.getElementById('optionsArea');
-        document.getElementById('qText').innerHTML = `CORRECT! You earned +40 PTS.<br>Buy ${tileNames[tid]} for <b>${price} PTS</b>?`;
+        document.getElementById('qText').innerHTML = `CORRECT! Buy ${tileNames[tid]} for ${price} PTS?`;
         area.innerHTML = '';
-        const b = document.createElement('button'); b.className = 'btn btn-buy'; b.innerText = `BUY LAND (-${price})`;
+        const b = document.createElement('button'); b.className = 'btn'; b.style.background = 'var(--gold)'; b.style.color='#000'; b.innerText = `BUY LAND`;
         b.onclick = () => {
             if(p.pts >= price){
                 p.pts -= price; owners[tid] = turn;
                 const t = document.getElementById('t'+tid);
-                t.style.background = ownerCols[p.id]; t.style.color="white";
-                t.innerHTML += `<span class="owner-tag">${p.icon}</span>`;
-                document.getElementById('qOverlay').style.display = 'none'; endTurn();
-            } else { alert("Insufficient points!"); }
+                t.style.background = ownerCols[p.id]; t.innerHTML += `<span class="owner-tag">${p.icon}</span>`;
+            }
+            endTurn();
         };
-        const s = document.createElement('button'); s.className = 'btn btn-skip'; s.innerText = "NO THANKS (END TURN)";
-        s.onclick = () => { document.getElementById('qOverlay').style.display = 'none'; endTurn(); };
+        const s = document.createElement('button'); s.className = 'btn'; s.style.background='#4b5563'; s.innerText = "SKIP";
+        s.onclick = endTurn;
         area.appendChild(b); area.appendChild(s);
     }
 
@@ -247,7 +224,7 @@
         let ts = players.filter((_,i)=>i!==turn);
         if(ts.length > 0){
             let t = ts[Math.floor(Math.random()*ts.length)];
-            t.skip = true; alert(`Chance! ${t.icon} skip turn.`);
+            t.skip = true; alert(`${t.icon} will skip turn.`);
         }
         updateStats();
     }
@@ -259,13 +236,6 @@
         document.getElementById('stat'+turn).classList.add('active-turn');
         updateStatus();
     }
-
-    function checkEndGame(){
-        let win = [...players].sort((a,b) => b.pts - a.pts);
-        alert(`GAME OVER! ${win.icon} wins with ${win.pts} PTS!`);
-        location.reload();
-    }
-
     function updateStats(){ players.forEach((p,i)=>document.getElementById('pts'+i).innerText = p.pts); }
     function updateStatus(){ document.getElementById('statusLabel').innerText = players[turn].icon + "'S TURN"; }
     function updatePieces(){
