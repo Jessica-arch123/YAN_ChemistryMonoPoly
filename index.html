@@ -55,8 +55,8 @@
                 <div class="instr-item"><div class="instr-num">1</div><span>Initial Grant: <b>30 PTS</b>.</span></div>
                 <div class="instr-item"><div class="instr-num">2</div><span>Correct: <b>+20 PTS</b> | Wrong: <b>-30 PTS</b>.</span></div>
                 <div class="instr-item"><div class="instr-num">3</div><span>Audit Penalty: <b>-20 PTS</b>.</span></div>
-                <div class="instr-item"><div class="instr-num">4</div><span>Lab Bonus: <b>+40 PTS</b> | Round: <b>+50</b>.</span></div>
-                <div class="instr-item"><div class="instr-num">5</div><span>Buy land (min 50 PTS) to collect rent!</span></div>
+                <div class="instr-item"><div class="instr-num">4</div><span>Lab Bonus: <b>+40 PTS</b> | Round GO: <b>+50</b>.</span></div>
+                <div class="instr-item"><div class="instr-num">5</div><span>Land Rental: <b>25 PTS</b>. min 50 PTS to buy.</span></div>
             </div>
             <div class="char-selection">
                 <h3 style="margin:0 0 10px 0; font-size:1rem;">Characters</h3>
@@ -98,64 +98,63 @@
     function play(t){ sounds[t].currentTime=0; sounds[t].play().catch(()=>{}); }
 
     const questions = [
-        // ANALYTICAL
+        // ANALYTICAL (8)
         { id:1, mod:"ANALYTICAL", text:"Closeness of a measured value to the true value is:", options:["Precision","Accuracy","Linearity","Selectivity"], correct:"Accuracy", price:50, rent:20 },
         { id:2, mod:"ANALYTICAL", text:"Reproducibility of measurements in a series is:", options:["Accuracy","Precision","Sensitivity","Speed"], correct:"Precision", price:50, rent:20 },
-        { id:3, mod:"ANALYTICAL", text:"Accuracy is usually expressed as:", options:["Standard Deviation","Percent Error","Variance","Range"], correct:"Percent Error", price:50, rent:20 },
-        { id:4, mod:"ANALYTICAL", text:"Precision is usually expressed as:", options:["Percent Error","Relative Standard Deviation","Mean","Sensitivity"], correct:"Relative Standard Deviation", price:50, rent:20 },
-        { id:5, mod:"ANALYTICAL", text:"Difference between measured and true value:", options:["Random Error","Systematic Error","Precision","Variance"], correct:"Systematic Error", price:60, rent:25 },
-        { id:6, mod:"ANALYTICAL", text:"Error causing data to scatter symmetrically:", options:["Systematic Error","Random Error","Constant Error","Blunder"], correct:"Random Error", price:60, rent:25 },
-        { id:7, mod:"ANALYTICAL", text:"Smallest amount an instrument can detect:", options:["Accuracy","Limit of Detection","Precision","Sensitivity"], correct:"Limit of Detection", price:70, rent:30 },
-        { id:8, mod:"ANALYTICAL", text:"Calibration of equipment primarily addresses:", options:["Random Error","Systematic Error","Precision","Human Error"], correct:"Systematic Error", price:70, rent:30 },
+        { id:3, mod:"ANALYTICAL", text:"A primary standard must be:", options:["Highly hygroscopic","Highly pure and stable","Liquid","Volatile"], correct:"Highly pure and stable", price:50, rent:20 },
+        { id:4, mod:"ANALYTICAL", text:"Accuracy is usually expressed as:", options:["Standard Deviation","Percent Error","Variance","Range"], correct:"Percent Error", price:50, rent:20 },
+        { id:5, mod:"ANALYTICAL", text:"Precision is usually expressed as:", options:["Percent Error","Relative Standard Deviation (RSD)","Mean","Sensitivity"], correct:"Relative Standard Deviation (RSD)", price:50, rent:20 },
+        { id:6, mod:"ANALYTICAL", text:"Error causing data to scatter symmetrically around the mean:", options:["Systematic Error","Random Error","Constant Error","Blunder"], correct:"Random Error", price:60, rent:25 },
+        { id:7, mod:"ANALYTICAL", text:"Error that results in a bias in measurement:", options:["Random Error","Systematic Error","Gross Error","Indeterminate Error"], correct:"Systematic Error", price:60, rent:25 },
+        { id:8, mod:"ANALYTICAL", text:"The smallest concentration detectable by an instrument:", options:["Accuracy","Limit of Detection (LOD)","Precision","Sensitivity"], correct:"Limit of Detection (LOD)", price:70, rent:30 },
 
-        // TITRATIONS
-        { id:9, mod:"TITRATIONS", text:"Indicator for Mohr Method?", options:["Ferric Ion","Potassium Chromate","Fluorescein","Methyl Red"], correct:"Potassium Chromate", price:80, rent:30 },
-        { id:10, mod:"TITRATIONS", text:"Volhard Method is which type of titration?", options:["Direct","Back","Complexometric","Redox"], correct:"Back", price:100, rent:40 },
-        { id:11, mod:"TITRATIONS", text:"Indicator for EDTA at pH 10?", options:["Murexide","Erio-T","Starch","Litmus"], correct:"Erio-T", price:80, rent:30 },
+        // TITRATIONS (8)
+        { id:9, mod:"TITRATIONS", text:"Indicator used in the Mohr Method for Cl<sup>-</sup>?", options:["Ferric Ion","Potassium Chromate (K<sub>2</sub>CrO<sub>4</sub>)","Fluorescein","Methyl Red"], correct:"Potassium Chromate (K<sub>2</sub>CrO<sub>4</sub>)", price:80, rent:30 },
+        { id:10, mod:"TITRATIONS", text:"Volhard Method uses which type of titration?", options:["Direct","Back","Complexometric","Redox"], correct:"Back", price:100, rent:40 },
+        { id:11, mod:"TITRATIONS", text:"Common indicator for EDTA at pH 10?", options:["Murexide","Erio-T","Starch","Litmus"], correct:"Erio-T", price:80, rent:30 },
         { id:12, mod:"TITRATIONS", text:"EDTA is a ___ ligand:", options:["Bidentate","Tetradentate","Hexadentate","Monodentate"], correct:"Hexadentate", price:80, rent:30 },
-        { id:13, mod:"TITRATIONS", text:"Starch is the indicator for:", options:["KMnO4","Iodine","EDTA","AgNO3"], correct:"Iodine", price:80, rent:30 },
-        { id:14, mod:"TITRATIONS", text:"KMnO4 titration is:", options:["Self-indicating","Requires Starch","Requires Erio-T","Uses Phenolphthalein"], correct:"Self-indicating", price:80, rent:30 },
-        { id:15, mod:"TITRATIONS", text:"Which is a mandatory requirement for a Primary Standard?", options:["Highly hygroscopic","Highly pure and stable","Low molecular weight","Liquid state"], correct:"Highly pure and stable", price:100, rent:40 },
-        { id:16, mod:"TITRATIONS", text:"Standardizing EDTA usually requires:", options:["NaOH","CaCO3","HCl","KMnO4"], correct:"CaCO3", price:100, rent:40 },
+        { id:13, mod:"TITRATIONS", text:"Starch is the indicator for:", options:["KMnO<sub>4</sub>","I<sub>2</sub> (Iodine)","EDTA","AgNO<sub>3</sub>"], correct:"I<sub>2</sub> (Iodine)", price:80, rent:30 },
+        { id:14, mod:"TITRATIONS", text:"KMnO<sub>4</sub> titration is categorized as:", options:["Self-indicating","Requires Starch","Requires Erio-T","Uses Phenolphthalein"], correct:"Self-indicating", price:80, rent:30 },
+        { id:15, mod:"TITRATIONS", text:"Standardizing EDTA usually requires a primary standard like:", options:["NaOH","CaCO<sub>3</sub>","HCl","KMnO<sub>4</sub>"], correct:"CaCO<sub>3</sub>", price:100, rent:40 },
+        { id:16, mod:"TITRATIONS", text:"Titrant used in Volhard back-titration:", options:["AgNO<sub>3</sub>","KSCN","NaOH","EDTA"], correct:"KSCN", price:100, rent:40 },
 
-        // CONCENTRATIONS
+        // CONCENTRATIONS (8)
         { id:17, mod:"CONC.", text:"Definition of Molarity (M)?", options:["Moles/L solution","Moles/kg solvent","Grams/L","Weight %"], correct:"Moles/L solution", price:80, rent:30 },
         { id:18, mod:"CONC.", text:"Definition of Molality (m)?", options:["Moles/L solution","Moles/kg solvent","Mole fraction","Grams/mL"], correct:"Moles/kg solvent", price:80, rent:30 },
-        { id:19, mod:"CONC.", text:"Mole fraction (XA) formula is:", options:["nA / Total moles","nA / kg solvent","Weight / Volume","Density"], correct:"nA / Total moles", price:60, rent:20 },
-        { id:20, mod:"CONC.", text:"A 1 ppm solution contains 1mg of solute per ___ of solution:", options:["Liter","Kilogram","Milliliter","Gram"], correct:"Liter", price:70, rent:30 },
-        // UPDATED ID 21
-        { id:21, mod:"CONC.", text:"Weight/Volume (w/v) concentration is affected by which factor?", options:["Concentration","Temperature","Gravity","Catalyst"], correct:"Temperature", price:100, rent:40 },
-        { id:22, mod:"CONC.", text:"Grams of NaOH (MW:40) for 500mL of 0.1M?", options:["1g","2g","4g","0.5g"], correct:"2g", price:100, rent:40 },
-        { id:23, mod:"CONC.", text:"Dilution formula used in labs:", options:["PV=nRT","C1V1 = C2V2","pH = -log[H+]","n=m/MW"], correct:"C1V1 = C2V2", price:60, rent:25 },
-        { id:24, mod:"CONC.", text:"Density is defined as:", options:["Mass/Volume","Volume/Mass","Moles/L","Grams/Equivalent"], correct:"Mass/Volume", price:50, rent:20 },
+        { id:19, mod:"CONC.", text:"Mole fraction (X<sub>A</sub>) formula is:", options:["n<sub>A</sub> / Total moles","n<sub>A</sub> / kg solvent","Weight / Volume","Density"], correct:"n<sub>A</sub> / Total moles", price:60, rent:20 },
+        { id:20, mod:"CONC.", text:"A 1 ppm solution contains 1 mg of solute per ___ of solution:", options:["Liter (L)","Kilogram (kg)","Milliliter (mL)","Gram (g)"], correct:"Liter (L)", price:70, rent:30 },
+        { id:21, mod:"CONC.", text:"Weight/Volume (w/v) concentration is affected by:", options:["Concentration","Temperature","Gravity","Atmospheric Pressure"], correct:"Temperature", price:100, rent:40 },
+        { id:22, mod:"CONC.", text:"Grams of NaOH (MW:40) needed for 500 mL of 0.1 M?", options:["1 g","2 g","4 g","0.5 g"], correct:"2 g", price:100, rent:40 },
+        { id:23, mod:"CONC.", text:"Laboratory dilution formula:", options:["PV = nRT","C<sub>1</sub>V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub>","pH = -log[H<sup>+</sup>]","n = m / MW"], correct:"C<sub>1</sub>V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub>", price:60, rent:25 },
+        { id:24, mod:"CONC.", text:"Density is defined as:", options:["Mass / Volume","Volume / Mass","Moles / L","Grams / Equivalent"], correct:"Mass / Volume", price:50, rent:20 },
 
-        // ACID-BASE
-        { id:25, mod:"ACID-BASE", text:"Henderson-Hasselbalch equation:", options:["pH = pKa + log[A-]/[HA]","pH = pKa - log[A-]/[HA]","pH = -log[H+]","pKa = -log Ka"], correct:"pH = pKa + log[A-]/[HA]", price:100, rent:40 },
-        { id:26, mod:"ACID-BASE", text:"Max buffering capacity occurs when:", options:["pH = 7","pH = pKa","pOH = pKb","pH = 1"], correct:"pH = pKa", price:100, rent:40 },
-        { id:27, mod:"ACID-BASE", text:"Bronsted-Lowry base is a:", options:["Proton donor","Proton acceptor","Electron donor","Lewis acid"], correct:"Proton acceptor", price:50, rent:20 },
-        { id:28, mod:"ACID-BASE", text:"Bronsted-Lowry acid is a:", options:["Proton donor","Proton acceptor","Electron donor","Electron acceptor"], correct:"Proton donor", price:50, rent:20 },
-        { id:29, mod:"ACID-BASE", text:"pH + pOH always equals ___ at 25°C:", options:["7","14","1","10"], correct:"14", price:60, rent:25 },
-        { id:30, mod:"ACID-BASE", text:"Strong acid example:", options:["CH3COOH","HCl","NH3","H2CO3"], correct:"HCl", price:50, rent:20 },
+        // ACID-BASE (8)
+        { id:25, mod:"ACID-BASE", text:"Henderson-Hasselbalch equation:", options:["pH = pK<sub>a</sub> + log([A<sup>-</sup>]/[HA])","pH = pK<sub>a</sub> - log([A<sup>-</sup>]/[HA])","pH = -log[H<sup>+</sup>]","pK<sub>a</sub> = -log K<sub>a</sub>"], correct:"pH = pK<sub>a</sub> + log([A<sup>-</sup>]/[HA])", price:100, rent:40 },
+        { id:26, mod:"ACID-BASE", text:"Maximum buffering capacity occurs when:", options:["pH = 7","pH = pK<sub>a</sub>","pOH = pK<sub>b</sub>","pH = 1"], correct:"pH = pK<sub>a</sub>", price:100, rent:40 },
+        { id:27, mod:"ACID-BASE", text:"According to Bronsted-Lowry, a base is a:", options:["Proton donor","Proton acceptor","Electron donor","Lewis acid"], correct:"Proton acceptor", price:50, rent:20 },
+        { id:28, mod:"ACID-BASE", text:"According to Bronsted-Lowry, an acid is a:", options:["Proton donor","Proton acceptor","Electron donor","Electron acceptor"], correct:"Proton donor", price:50, rent:20 },
+        { id:29, mod:"ACID-BASE", text:"At 25°C, pH + pOH always equals:", options:["7","14","1","10"], correct:"14", price:60, rent:25 },
+        { id:30, mod:"ACID-BASE", text:"Which is a strong acid?", options:["CH<sub>3</sub>COOH","HCl","NH<sub>3</sub>","H<sub>2</sub>CO<sub>3</sub>"], correct:"HCl", price:50, rent:20 },
         { id:31, mod:"ACID-BASE", text:"A buffer consists of a weak acid and its:", options:["Strong base","Conjugate base","Solvent","Indicator"], correct:"Conjugate base", price:80, rent:30 },
-        { id:32, mod:"ACID-BASE", text:"Ka measures the strength of:", options:["Strong bases","Weak acids","Solubility","Ionic bonds"], correct:"Weak acids", price:100, rent:40 },
+        { id:32, mod:"ACID-BASE", text:"K<sub>a</sub> measures the strength of:", options:["Strong bases","Weak acids","Solubility","Ionic bonds"], correct:"Weak acids", price:100, rent:40 },
 
-        // VSEPR
-        { id:33, mod:"VSEPR", text:"Shape of NH3 according to VSEPR?", options:["Trigonal Planar","Trigonal Pyramidal","Tetrahedral","Bent"], correct:"Trigonal Pyramidal", price:60, rent:20 },
-        { id:34, mod:"VSEPR", text:"Molecular shape of PCl5?", options:["Octahedral","Trigonal Bipyramidal","Tetrahedral","Linear"], correct:"Trigonal Bipyramidal", price:100, rent:40 },
-        { id:35, mod:"VSEPR", text:"Shape of H2O according to VSEPR?", options:["Linear","Bent","Tetrahedral","Trigonal Planar"], correct:"Bent", price:60, rent:20 },
-        { id:36, mod:"VSEPR", text:"Shape of CH4?", options:["Square Planar","Tetrahedral","Octahedral","Pyramidal"], correct:"Tetrahedral", price:80, rent:30 },
-        { id:37, mod:"VSEPR", text:"Bond angle in linear CO2?", options:["90°","109.5°","120°","180°"], correct:"180°", price:60, rent:25 },
-        { id:38, mod:"VSEPR", text:"Shape of SF6?", options:["Octahedral","Hexagonal","Square Planar","Trigonal Bipyramidal"], correct:"Octahedral", price:100, rent:40 },
-        { id:39, mod:"VSEPR", text:"Bond angle in tetrahedral CH4?", options:["180°","120°","109.5°","90°"], correct:"109.5°", price:80, rent:30 },
-        { id:40, mod:"VSEPR", text:"Shape of BF3?", options:["Trigonal Planar","Trigonal Pyramidal","Bent","Linear"], correct:"Trigonal Planar", price:80, rent:30 },
+        // VSEPR (8)
+        { id:33, mod:"VSEPR", text:"Shape of NH<sub>3</sub> according to VSEPR theory?", options:["Trigonal Planar","Trigonal Pyramidal","Tetrahedral","Bent"], correct:"Trigonal Pyramidal", price:60, rent:20 },
+        { id:34, mod:"VSEPR", text:"Molecular shape of PCl<sub>5</sub>?", options:["Octahedral","Trigonal Bipyramidal","Tetrahedral","Linear"], correct:"Trigonal Bipyramidal", price:100, rent:40 },
+        { id:35, mod:"VSEPR", text:"Shape of H<sub>2</sub>O according to VSEPR?", options:["Linear","Bent","Tetrahedral","Trigonal Planar"], correct:"Bent", price:60, rent:20 },
+        { id:36, mod:"VSEPR", text:"Geometry of CH<sub>4</sub>?", options:["Square Planar","Tetrahedral","Octahedral","Pyramidal"], correct:"Tetrahedral", price:80, rent:30 },
+        { id:37, mod:"VSEPR", text:"Bond angle in linear CO<sub>2</sub>?", options:["90°","109.5°","120°","180°"], correct:"180°", price:60, rent:25 },
+        { id:38, mod:"VSEPR", text:"Shape of SF<sub>6</sub>?", options:["Octahedral","Hexagonal","Square Planar","Trigonal Bipyramidal"], correct:"Octahedral", price:100, rent:40 },
+        { id:39, mod:"VSEPR", text:"Bond angle in tetrahedral CH<sub>4</sub>?", options:["180°","120°","109.5°","90°"], correct:"109.5°", price:80, rent:30 },
+        { id:40, mod:"VSEPR", text:"Shape of BF<sub>3</sub>?", options:["Trigonal Planar","Trigonal Pyramidal","Bent","Linear"], correct:"Trigonal Planar", price:80, rent:30 },
 
-        // BONDING
-        { id:41, mod:"BONDING", text:"Hybridization of C in Methane (CH4)?", options:["sp","sp2","sp3","dsp2"], correct:"sp3", price:60, rent:20 },
-        { id:42, mod:"BONDING", text:"Hybridization of C in Ethene (C2H4)?", options:["sp","sp2","sp3","sp3d"], correct:"sp2", price:80, rent:30 },
-        { id:43, mod:"BONDING", text:"Bond order for O2+ in MO theory?", options:["1.5","2.0","2.5","3.0"], correct:"2.5", price:100, rent:40 },
-        { id:44, mod:"BONDING", text:"Paramagnetism of Oxygen is explained by:", options:["VSEPR","Valence Bond","Molecular Orbital","Lewis Theory"], correct:"Molecular Orbital", price:100, rent:40 },
-        { id:45, mod:"BONDING", text:"Bond order for N2 in MO theory?", options:["1.0","2.0","3.0","2.5"], correct:"3.0", price:100, rent:40 },
-        { id:46, mod:"BONDING", text:"Hybridization of C in Ethyne (C2H2)?", options:["sp","sp2","sp3","dsp2"], correct:"sp", price:80, rent:30 },
+        // BONDING (8)
+        { id:41, mod:"BONDING", text:"Hybridization of C in Methane (CH<sub>4</sub>)?", options:["sp","sp<sup>2</sup>","sp<sup>3</sup>","dsp<sup>2</sup>"], correct:"sp<sup>3</sup>", price:60, rent:20 },
+        { id:42, mod:"BONDING", text:"Hybridization of C in Ethene (C<sub>2</sub>H<sub>4</sub>)?", options:["sp","sp<sup>2</sup>","sp<sup>3</sup>","sp<sup>3</sup>d"], correct:"sp<sup>2</sup>", price:80, rent:30 },
+        { id:43, mod:"BONDING", text:"Bond order for O<sub>2</sub><sup>+</sup> in MO theory?", options:["1.5","2.0","2.5","3.0"], correct:"2.5", price:100, rent:40 },
+        { id:44, mod:"BONDING", text:"Paramagnetism of Oxygen is explained by:", options:["VSEPR","Valence Bond Theory","Molecular Orbital Theory","Lewis Theory"], correct:"Molecular Orbital Theory", price:100, rent:40 },
+        { id:45, mod:"BONDING", text:"Bond order for N<sub>2</sub> in MO theory?", options:["1.0","2.0","3.0","2.5"], correct:"3.0", price:100, rent:40 },
+        { id:46, mod:"BONDING", text:"Hybridization of C in Ethyne (C<sub>2</sub>H<sub>2</sub>)?", options:["sp","sp<sup>2</sup>","sp<sup>3</sup>","dsp<sup>2</sup>"], correct:"sp", price:80, rent:30 },
         { id:47, mod:"BONDING", text:"A sigma bond (σ) is formed by ___ overlap:", options:["Side-to-side","End-to-end","Parallel","Perpendicular"], correct:"End-to-end", price:100, rent:40 },
         { id:48, mod:"BONDING", text:"A pi bond (π) is formed by ___ overlap:", options:["End-to-end","Side-to-side","Axial","Direct"], correct:"Side-to-side", price:100, rent:40 }
     ];
@@ -234,7 +233,7 @@
         if(owners[p.pos] !== undefined && owners[p.pos] !== turn){
             let rent = 25; // Base rent
             let o = players[owners[p.pos]]; p.pts -= rent; o.pts += rent;
-            alert(`Rent Paid: 25 PTS to ${o.icon}`); endTurn();
+            alert(`Rent Paid: ${rent} PTS to ${o.icon}`); endTurn();
         } else { showQuestion(p.pos, p); }
     }
 
@@ -301,7 +300,7 @@
         });
     }
     function checkEndGame(){
-        let win = [...players].sort((a,b) => b.pts - a.pts);
+        let win = [...players].sort((a,b) => b.pts - a.pts)[0];
         alert(`GAME OVER! ${win.icon} is the Top Researcher with ${win.pts} PTS!`);
         location.reload();
     }
